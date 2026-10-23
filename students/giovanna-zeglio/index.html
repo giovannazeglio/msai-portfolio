@@ -11,7 +11,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/style.css">
-<style>.photo-card img { height: auto; object-fit: contain; }</style>
+<style>
+.photo-card img { height: auto; object-fit: contain; }
+@media (max-width: 860px) {
+  .portfolio-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 32px; }
+  .portfolio-links .rail-link { margin-top: 0; padding: 12px; }
+  main > .photo-card { max-width: 300px; margin-top: 40px; }
+}
+</style>
 </head>
 <body>
 
@@ -36,10 +43,12 @@
       </div>
 
       
+      <nav class="portfolio-links" aria-label="Profile and résumé links">
       <a class="rail-link" href="https://www.linkedin.com/in/giovanna-zeglio-588b87112/">LinkedIn profile</a>
       <a class="rail-link" href="https://github.com/giovannazeglio">GitHub profile</a>
-      <a class="rail-link" href="https://github.com/giovannazeglio/msai-portfolio/raw/refs/heads/student/giovanna-zeglio/students/giovanna-zeglio/resume.pdf">Résumé</a>
-      <a class="rail-link" href="https://github.com/giovannazeglio/msai-portfolio/tree/student/giovanna-zeglio/students/giovanna-zeglio">Portfolio source</a>
+      <a class="rail-link" href="resume.pdf">Résumé</a>
+      <a class="rail-link" href="https://github.com/rodolfocapdevilla-au/msai-portfolio/tree/main/students/giovanna-zeglio">Portfolio source</a>
+      </nav>
     </aside>
 
     
@@ -94,6 +103,29 @@
   </div>
 </div>
 
+<script>
+(() => {
+  const columns = document.querySelector(".cols");
+  const sidebar = columns.querySelector("aside");
+  const main = columns.querySelector("main");
+  const links = sidebar.querySelector(".portfolio-links");
+  const photo = sidebar.querySelector(".photo-card");
+  const narrowScreen = window.matchMedia("(max-width: 860px)");
+  function arrangePortfolio() {
+    if (narrowScreen.matches) {
+      main.querySelector(".quote").after(links);
+      main.append(photo);
+      sidebar.hidden = true;
+    } else {
+      sidebar.append(photo, links);
+      sidebar.hidden = false;
+    }
+  }
+  arrangePortfolio();
+  narrowScreen.addEventListener("change", arrangePortfolio);
+})();
+</script>
 <script src="../../assets/feedback.js" defer></script>
 </body>
 </html>
+
